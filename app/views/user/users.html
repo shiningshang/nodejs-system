@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Bootstrap Admin</title>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <% include ../includePage/refResource.html %>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<!--[if lt IE 7 ]> <body class="ie ie6"> <![endif]-->
+<!--[if IE 7 ]> <body class="ie ie7 "> <![endif]-->
+<!--[if IE 8 ]> <body class="ie ie8 "> <![endif]-->
+<!--[if IE 9 ]> <body class="ie ie9 "> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<body class="">
+<!--<![endif]-->
+
+<% include ../includePage/header.html %>
+
+<% include ../includePage/navigation.html %>
+
+<div class="content">
+    <div class="articleContent">
+        <h2 class="box"><a href="/user/add/">添加用户</a></li></a></h2>
+        <div class="fr hv download">下载</div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>用户名</th>
+                <th>密码</th>
+                <th>注册时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <% for (var i = 0;i< userList.length; i++) {
+            var userInfo = userList[i];
+            %>
+            <tr>
+                <td ><%=userInfo.userName %></a></td>
+                <td><%=userInfo.password %></td>
+                <td><%=userInfo.create_date %></td>
+                <td><span class='edit' data-id='<%=userInfo._id %>'>编辑</span> <span class='del' data-id='<%=userInfo._id %>'>删除</span></td>
+            </tr>
+        <%}%>
+        </table>
+    </div>
+    <div class="span12">
+        <div id="divPage" pageCount="<%=page.pageCount%>" pageNum="<%=page.num %>" pageSize="<%=page.size%>" pageLimit="<%=page.limit%>" numberOfPages="<%=page.numberOf%>"></div>
+    </div>
+</div>
+
+<script src="/js/lib/bootstrap/bootstrap.js"></script>
+<script type="text/javascript" src="/js/lib/bootstrap/bootstrap-paginator.min.js"></script>
+<script type="text/javascript">
+
+$('.del').click(function(){
+    location.href = '/user/del/'+$(this).data('id');
+})
+$('.edit').click(function(){
+    location.href = '/user/edit/'+$(this).data('id');
+})
+$('.download').click(function(){
+    window.open('/user/download','_blank');
+})
+$(function(){
+    //获得浏览器参数
+    $.extend({
+    getUrlVars: function(){
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++){
+    hash = hashes[i].split('=');
+    vars.push(hash[0]);
+    vars[hash[0]] = hash[1];
+    }
+    return vars;
+    },
+    getUrlVar: function(name){
+    return $.getUrlVars()[name];
+    }
+    });
+
+    //封装浏览器参数
+    var composeUrlParams=function(){
+    var param='';
+    $.each($.getUrlVars(), function(i, item) {
+    if(item!='p'){
+    var val=$.getUrlVar(item);
+    if(val) param += "&" + item+"="+val;
+    }
+    });
+    return param;
+    }
+    //分页功能
+    var objPage=$('#divPage');
+        var options = {
+        currentPage:objPage.attr('pageNum'),
+        totalPages:objPage.attr('pageCount'),
+        numberOfPages:objPage.attr('numberOfPages'),
+        pageUrl: function(type, page, current){
+            return "/user/userList?"+composeUrlParams()+"&p="+page;
+        }
+    }
+    objPage.bootstrapPaginator(options);
+});
+</script>
+
+</body>
+</html>
+
+
