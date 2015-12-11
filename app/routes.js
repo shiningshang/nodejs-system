@@ -1,6 +1,6 @@
 
 exports.setRequestUrl=function(app){
-    var user = require('./Controllers/user')
+    var user = require('./controllers/user')
         ,indexObj = require('./controllers/index');
     
     app.all('/', indexObj.index);
