@@ -16,10 +16,10 @@ app.configure(function(){
   app.use(express.logger('dev'));
   app.use(express.cookieParser('some secret here'));
   app.use(express.session());
-  //登录拦截器 第一次使用的时候可以关闭拦截器，手动添加用户url:/user/add
   app.use(function (req, res, next) {
       var url = req.originalUrl;
-      
+      //第一次使用,取消下面的注释，手动添加用户url:/user/init
+      //next();return;
       for(var i=0,l=config.pass_url.length;i<l;i++){
         var r = '.*\.'+config.pass_url[i]+'$';
         if(new RegExp(r).test(url)){

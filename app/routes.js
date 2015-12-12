@@ -9,6 +9,7 @@ exports.setRequestUrl=function(app){
     app.get('/onLogout', user.onLogout);
     app.get('/user/userList', user.userList);
     app.post('/user/addUser', user.addUser);
+    app.get('/user/init',user.init);
     app.post('/user/editUser', user.editUser);
     app.get('/user/del/:id', user.delUser);
     app.get('/user/edit/:id', user.edit);

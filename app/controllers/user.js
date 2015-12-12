@@ -113,6 +113,9 @@ exports.findPagination = function(obj,callback) {
 exports.add = function (req,res,next){
     res.render('./user/add.html');
 };
+exports.init = function (req,res,next){
+    res.render('./user/init.html');
+};
 exports.edit = function (req,res,next){
     var id = req.params.id;
     var queryObj = {_id:id};
