@@ -29,11 +29,12 @@ app.configure(function(){
         }
       }
       if (url != "/login" && url != "/onLogin" && !req.session.user) {
-        next();
+	//console.log("33"+req.session.user)
         return res.redirect("/login");
       }
       if(req.session.user){
         //类似于session的东西
+        //console.log(""+req.session.user)
         res.locals.userName = req.session.user.userName; 
       }
       next();
