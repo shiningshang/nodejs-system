@@ -1,7 +1,8 @@
 
 exports.setRequestUrl=function(app){
-    var user = require('./controllers/user')
-        ,indexObj = require('./controllers/index');
+    var user = require('./controllers/user'),
+	config = require("./config"),
+        indexObj = require('./controllers/index');
     
     app.all('/', indexObj.index);
     app.all('/login', user.login);
@@ -22,6 +23,19 @@ exports.setRequestUrl=function(app){
     app.get('/index/:id/edit', indexObj.editContect);
     app.post('/index/:id/edit', indexObj.saveContect);
     app.get('/index/:id/delete', indexObj.deleteContectById);
-
+    app.all('*',function(req,res,next){
+      var url = req.originalUrl;
+      for(var i=0,l=config.pass_url.length;i<l;i++){
+        var r = '.*\.'+config.pass_url[i]+'$';
+        if(new RegExp(r).test(url)){
+          //console.log(url)
+          next();
+          return;
+        }
+      }
+      res.render('404.html', {
+        title: 'No Found'
+      })
+    })
 
 }

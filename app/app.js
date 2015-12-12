@@ -17,13 +17,13 @@ app.configure(function(){
   app.use(express.cookieParser('some secret here'));
   app.use(express.session());
   app.use(function (req, res, next) {
-      var url = req.originalUrl;
       //第一次使用,取消下面的注释，手动添加用户url:/user/init
       //next();return;
+      var url = req.originalUrl;
       for(var i=0,l=config.pass_url.length;i<l;i++){
         var r = '.*\.'+config.pass_url[i]+'$';
         if(new RegExp(r).test(url)){
-          console.log(url)
+         // console.log(url)
           next();
           return;
         }
